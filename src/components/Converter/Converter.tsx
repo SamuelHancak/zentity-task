@@ -10,7 +10,7 @@ import { CurrencyName } from "../../hooks/useConverter.types";
 const REQUEST_CURRENCIES: Array<CurrencyName> = ["EUR", "CZK", "GBP"];
 
 const Converter = ({ onSubmit }: ConverterProps) => {
-  const { currencies, error, loading } = useConverter({
+  const { currencies, loading } = useConverter({
     requestCurrencies: REQUEST_CURRENCIES,
   });
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -56,7 +56,9 @@ const Converter = ({ onSubmit }: ConverterProps) => {
     }
   };
 
-  return (
+  return loading ? (
+    <span>Loading...</span>
+  ) : (
     <form className="form" onSubmit={formik.handleSubmit}>
       <div className={"input-wrapper"}>
         <Input
@@ -100,9 +102,7 @@ const Converter = ({ onSubmit }: ConverterProps) => {
         Add to records
       </Button>
       <span className="error">
-        {formik.errors.input && formik.touched.input
-          ? formik.errors.input
-          : " "}
+        {formik.errors.input && formik.touched.input ? formik.errors.input : ""}
       </span>
     </form>
   );
